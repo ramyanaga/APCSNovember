@@ -10,9 +10,10 @@ comment3.target=java.lang.String\ operator(java.lang.String)
 comment4.params=input
 comment4.target=java.lang.String\ fraction2(java.lang.String)
 comment5.params=fract2
-comment5.target=java.lang.String\ checkpoint2(java.lang.String)
-comment5.text=\n\ \ \ \ public\ static\ String\ checkpoint2(String\ fract2)\ {\n\ \ \ \ \ \ \ \ int\ underscoreIndex\ \=\ fract2.indexOf("_");\ \n\ \ \ \ \ \ \ \ String\ whole\ \=\ fract2.substring(0,underscoreIndex);\ \n\ \ \ \ \ \ \ \ int\ slashIndex\ \=\ fract2.indexOf("/");\ \n\ \ \ \ \ \ \ \ String\ num\ \=\ "";\ \n\ \ \ \ \ \ \ \ if\ (slashIndex\!\=-1)\ {\n\ \ \ \ \ \ \ \ \ \ \ \ String\ num\ \=\ fract2.substring((underscoreIndex+1),\ slashIndex);\ \n\ \ \ \ \ \ \ \ }\n\ \ \ \ \ \ \ \ \n\ \ \ \ \ \ \ \ int\ endDenom\ \=\ fract2.length();\ \n\ \ \ \ \ \ \ \ String\ denom\ \=\ fract2.substring((slashIndex+1),\ endDenom);\ \n\ \ \ \ \ \ \ \ String\ fullLine\ \=\ "whole\:"\ +\ whole\ +\ "\ numerator\:"\ +\ num\ +\ "\ denominator\:"\ +\ denom;\ \n\ \ \ \ \ \ \ \ return\ fullLine;\ \n\ \ \ \ }\n
+comment5.target=java.lang.String\ checkpoint2V1(java.lang.String)
 comment6.params=fraction
-comment6.target=java.lang.String\ checkpoint2Test(java.lang.String)
+comment6.target=java.lang.String\ checkpoint2V2(java.lang.String)
 comment6.text=possible\ scenarios\:\ \n\ -whole\ number,\ numerator\ \!\=\ 0,\ denominator\ \n\ \ \ \ \ \ -underscore\ and\ slash\n\ -no\ whole\ number,\ numerator\ \!\=\ 0,\ denominator\ \n\ \ \ \ \ \ -no\ underscore,\ slash\n\ -whole\ number,\ numerator\ \=\ 0,\ denominator\n\ \ \ \ \ \ -no\ underscore,\ no\ slash\n
-numComments=7
+comment7.params=number
+comment7.target=int\ stringToInt(java.lang.String)
+numComments=8
