@@ -12,11 +12,17 @@ public class indexOfText
     // instance variables - replace the example below with your own
     public static void main(String[]args) {
         System.out.println("Enter crap here"); 
-        Scanner userInput = new Scanner(System.in); 
-        String equation = userInput.nextLine();   
-        String returnVal = produceAnswer(equation); 
+        Scanner userInput = new Scanner(System.in);  
+        String equation = userInput.nextLine(); 
+        String returnVal = produceAnswer(equation);
         System.out.println(returnVal); 
-        //produceAnswer(equation); 
+        
+       /*
+       String stuff = userInput.next(); 
+       String returnStuff = conversionTest(stuff); 
+       System.out.println(returnStuff); 
+       */
+        
         
     }
      public static String produceAnswer(String input) { 
@@ -30,7 +36,7 @@ public class indexOfText
       */
       
       String fract2 = fraction2(input); 
-      String fract2Line = checkpoint2Test(fract2); 
+      String fract2Line = checkpoint2V2(fract2); 
       return fract2Line;
       
      //String operator = operator(input); 
@@ -50,30 +56,14 @@ public class indexOfText
         return operator; 
     }
     public static String fraction2(String input) {
-        int fract2Start = input.indexOf(" ") + 2; 
+        int fract2Start = input.indexOf(" ") + 3; 
         int fract2End = input.length(); 
-        
         String fract2 = input.substring(fract2Start, fract2End); 
         return fract2; 
     }
-    /*
-    public static String checkpoint2(String fract2) {
-        int underscoreIndex = fract2.indexOf("_"); 
-        String whole = fract2.substring(0,underscoreIndex); 
-        int slashIndex = fract2.indexOf("/"); 
-        String num = ""; 
-        if (slashIndex!=-1) {
-            String num = fract2.substring((underscoreIndex+1), slashIndex); 
-        }
-        
-        int endDenom = fract2.length(); 
-        String denom = fract2.substring((slashIndex+1), endDenom); 
-        String fullLine = "whole:" + whole + " numerator:" + num + " denominator:" + denom; 
-        return fullLine; 
-    }
-    */
+    
        
-    public static String checkpoint2(String fract2) {
+    public static String checkpoint2V1(String fract2) {
         int underscore = 0;
         int slash = 0; 
         String whole = "0"; 
@@ -107,45 +97,80 @@ public class indexOfText
      *      -no underscore, no slash
      */
     
-    public static String checkpoint2Test(String fraction) {
+    public static String checkpoint2V2(String fraction) {
         int length = fraction.length();
         String denom = "1"; 
-        //int denomInt; 
         String num = "0"; 
-        //int numInt; 
         String wholeNum = "0"; 
-        //int wholeNumInt; 
         //if numerator is not equal to 0
         if (fraction.indexOf("/")!=-1) {
             denom = fraction.substring((fraction.indexOf("/") + 1),length);
-            
-            
             //denom = fraction.substring(startDenom, length); 
             fraction = fraction.substring(0,fraction.indexOf("/")); 
             //if numerator is not equal to 0 and fraction has a whole number
             if (fraction.indexOf("_")!=-1) {
                 num = fraction.substring((fraction.indexOf("_")+1),(fraction.length())); 
-            
                 fraction = fraction.substring(0,fraction.indexOf("_")); 
                 wholeNum = fraction; 
-                
-            }
+            }    
             //if numerator is not equal to 0, but fraction does not have whole number
             else {
                 num = fraction.substring(0,fraction.length()); 
-                
             }
         }
         //if numerator equals 0, but there is a whole number 
         else {
             wholeNum = fraction; 
         }
-        int denomInt = Integer.parseInt(denom); 
-        int numInt = Integer.parseInt(num); 
-        int wholeNumInt = Integer.parseInt(wholeNum);
+        int denomInt = stringToInt(denom); 
+        int numInt = stringToInt(num); 
+        int wholeNumInt = stringToInt(wholeNum); 
         return "wholeNum:" + wholeNumInt + " numerator:" + numInt + " denomerator:" + denomInt; 
     }
+    public static int stringToInt(String number) {
+       int numberInt; 
+       if ((Character.toString(number.charAt(0)) == "-")) {
+           numberInt = Integer.parseInt(number) * (-1); 
+        }
+        else {
+            numberInt = Integer.parseInt(number); 
+        }
+        return numberInt; 
+    }
+       
+    /*public static void stringToInt(String wholeNum, String num, String denom) {
+        int wholeNumInt; 
+        int numInt; 
+        int denomInt; 
+        if (wholeNum.substring(0,1).equals("-")) {
+            wholeNumInt = Integer.parseInt(wholeNum) * -1; 
+        }
+        else {wholeNumInt = Integer.parseInt(wholeNum); 
+        }
+        if (num.substring(0,1).equals("-")) {
+           numInt = Integer.parseInt(num) * -1; 
+        }
+        else {numInt = Integer.parseInt(num); 
+        }
+        if (denom.substring(0,1).equals("-")) {
+            denomInt = Integer.parseInt(denom) * -1; 
+        }
+        else {
+            denomInt = Integer.parseInt(denom); 
+        }
+        System.out.println("wholeNumInt: " + wholeNumInt + " numInt: " + numInt + " denomInt:" + denomInt); 
+     
+    }
+    */
+            
     
+    /*
+    public static String conversionTest(String anyInput) {
+        String stuff = anyInput;  
+        int stuffInt = Integer.parseInt(stuff); 
+        return "hello" + " you typed this as stuff " + stuffInt; 
+    }
+    */
     
         
                 
