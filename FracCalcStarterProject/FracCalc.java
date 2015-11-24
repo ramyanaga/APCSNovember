@@ -121,8 +121,22 @@ public class FracCalc {
         else {
             wholeNum = fraction; 
         }
-        return "whole:" + wholeNum + " numerator:" + num + " denominator:" + denom; 
+        int denomInt = stringToInt(denom); 
+        int numInt = stringToInt(num); 
+        int wholeNumInt = stringToInt(wholeNum); 
+        return "whole:" + wholeNumInt + " numerator:" + numInt + " denominator:" + denomInt; 
     }
+     public static int stringToInt(String number) {
+       int numberInt; 
+       if ((Character.toString(number.charAt(0)) == "-")) {
+           numberInt = Integer.parseInt(number) * (-1); 
+        }
+        else {
+            numberInt = Integer.parseInt(number); 
+        }
+        return numberInt; 
+    }
+    
    
         
         
