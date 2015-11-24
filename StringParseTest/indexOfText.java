@@ -11,11 +11,23 @@ public class indexOfText
 {
     // instance variables - replace the example below with your own
     public static void main(String[]args) {
-        System.out.println("Enter crap here"); 
-        Scanner userInput = new Scanner(System.in);  
-        String equation = userInput.nextLine(); 
-        String returnVal = produceAnswer(equation);
-        System.out.println(returnVal); 
+        
+        System.out.println("Enter crap here:"); 
+        Scanner userInput = new Scanner(System.in); 
+        String equation = userInput.nextLine();
+        int check = 1; 
+        while (check == 1) { 
+            //String equation = userInput.nextLine()
+            String returnVal = produceAnswer(equation);
+            System.out.println(returnVal); 
+            System.out.println("Enter crap here"); 
+            equation = userInput.nextLine(); 
+            if (equation.substring(0,equation.length()).equals("quit")) {
+                System.out.println("Good bye!"); 
+                check = 0; 
+            }
+          
+        }
         
        /*
        String stuff = userInput.next(); 
