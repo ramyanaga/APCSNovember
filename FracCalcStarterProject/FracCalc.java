@@ -7,12 +7,18 @@ public class FracCalc {
     public static void main(String[] args) {
         Scanner userInput = new Scanner(System.in); 
         String equation = userInput.nextLine(); 
-        while (equation!="quit") {
+        int check = 1;
+        //asks for user input until user types in quit
+        while (check == 1) {
              
             String returnVal = produceAnswer(equation); 
             System.out.println(returnVal); 
             userInput = new Scanner(System.in);
             equation = userInput.nextLine(); 
+            if (equation.substring(0,equation.length()).equals("quit")) {
+                System.out.println("You typed in quit! Bye bye!"); 
+                check = 0; 
+            }
         }
         
         // TODO: Read the input from the user and call produceAnswer with an equation
@@ -30,12 +36,13 @@ public class FracCalc {
     public static String produceAnswer(String input) { 
       //sets return values from functions defined below into appropriate variables  
       //Checkpoint 1 Below: 
-      //String fract1 = fraction1(input);
-      //String operator = operator(input); 
-      //String fract2 = fraction2(input); 
-      //only returns fraction 2 as per assignment
-      //return fract2; 
-      
+      /*String fract1 = fraction1(input);
+      String operator = operator(input); 
+      String fract2 = fraction2(input); 
+      only returns fraction 2 as per assignment
+      return fract2; 
+      */
+     
      //Below is for chekpoint 2 only 
      
      String fract2 = fraction2(input); 
@@ -63,39 +70,7 @@ public class FracCalc {
         String fract2 = input.substring(fract2Start, fract2End); 
         return fract2; 
     }
-    
-    public static String checkpoint2V1(String fract2) {
-        int underscore = 0;
-        int slash = 0; 
-        String whole = "0"; 
-        String num = "0"; 
-        String denom = "1"; 
-        
-        int length = fract2.length(); 
-        if (fract2.indexOf("_")!=-1) {
-            underscore = fract2.indexOf("_");         
-            whole = fract2.substring(0,underscore); 
-        }
-        else if (fract2.indexOf("/") == -1) {
-            whole = fract2.substring(0,length); 
-        }
-        
-        if (fract2.indexOf("/")!=-1) {
-            slash = fract2.indexOf("/"); 
-            denom = fract2.substring(slash+1, length); 
-            if (fract2.indexOf("_") != -1) {
-                num = fract2.substring((underscore+1),slash); 
-            }
-            else {
-                num = fract2.substring(0,slash); 
-            }
-            
-        }
-        String fullLine = "whole:" + whole + " numerator:" + num + " denominator:" + denom;
-        return fullLine; 
-    }
-    
-    
+   
     public static String checkpoint2V2(String fraction) {
         int length = fraction.length();
         String denom = "1"; 
@@ -104,7 +79,6 @@ public class FracCalc {
         //if numerator is not equal to 0
         if (fraction.indexOf("/")!=-1) {
             denom = fraction.substring((fraction.indexOf("/") + 1),length);
-   
             fraction = fraction.substring(0,fraction.indexOf("/")); 
             //if numerator is not equal to 0 and fraction has a whole number
             if (fraction.indexOf("_")!=-1) {
@@ -121,13 +95,16 @@ public class FracCalc {
         else {
             wholeNum = fraction; 
         }
+        //converts Strings to Ints
         int denomInt = stringToInt(denom); 
         int numInt = stringToInt(num); 
         int wholeNumInt = stringToInt(wholeNum); 
         return "whole:" + wholeNumInt + " numerator:" + numInt + " denominator:" + denomInt; 
     }
+    //function to convert strings to ints and store the ints in above function
      public static int stringToInt(String number) {
        int numberInt; 
+       //if the string has a negative number, the Integer.parseInt() function takes that into account here
        if ((Character.toString(number.charAt(0)) == "-")) {
            numberInt = Integer.parseInt(number) * (-1); 
         }
