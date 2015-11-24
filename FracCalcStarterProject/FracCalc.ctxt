@@ -13,4 +13,6 @@ comment5.params=fract2
 comment5.target=java.lang.String\ checkpoint2V1(java.lang.String)
 comment6.params=fraction
 comment6.target=java.lang.String\ checkpoint2V2(java.lang.String)
-numComments=7
+comment7.params=number
+comment7.target=int\ stringToInt(java.lang.String)
+numComments=8
