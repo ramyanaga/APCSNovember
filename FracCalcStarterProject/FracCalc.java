@@ -7,8 +7,13 @@ public class FracCalc {
     public static void main(String[] args) {
         Scanner userInput = new Scanner(System.in); 
         String equation = userInput.nextLine(); 
-        String returnVal = produceAnswer(equation); 
-        System.out.println(returnVal); 
+        while (equation!="quit") {
+             
+            String returnVal = produceAnswer(equation); 
+            System.out.println(returnVal); 
+            userInput = new Scanner(System.in);
+            equation = userInput.nextLine(); 
+        }
         
         // TODO: Read the input from the user and call produceAnswer with an equation
 
@@ -24,18 +29,19 @@ public class FracCalc {
     //      e.g. return ==> "1_1/4"
     public static String produceAnswer(String input) { 
       //sets return values from functions defined below into appropriate variables  
-      String fract1 = fraction1(input);
-      String operator = operator(input); 
-      String fract2 = fraction2(input); 
+      //Checkpoint 1 Below: 
+      //String fract1 = fraction1(input);
+      //String operator = operator(input); 
+      //String fract2 = fraction2(input); 
       //only returns fraction 2 as per assignment
-      return fract2; 
+      //return fract2; 
       
      //Below is for chekpoint 2 only 
-     /*
+     
      String fract2 = fraction2(input); 
-     String fract2Line = checkpoint2(fract2); 
+     String fract2Line = checkpoint2V2(fract2); 
      return fract2Line; 
-     */
+     
      
     }
     //parses fraction 1
@@ -58,8 +64,7 @@ public class FracCalc {
         return fract2; 
     }
     
-    /* Below is only for checkpoint 2; please ignore while grading checkpoint 1 file 
-    public static String checkpoint2(String fract2) {
+    public static String checkpoint2V1(String fract2) {
         int underscore = 0;
         int slash = 0; 
         String whole = "0"; 
@@ -89,7 +94,36 @@ public class FracCalc {
         String fullLine = "whole:" + whole + " numerator:" + num + " denominator:" + denom;
         return fullLine; 
     }
-    */
+    
+    
+    public static String checkpoint2V2(String fraction) {
+        int length = fraction.length();
+        String denom = "1"; 
+        String num = "0"; 
+        String wholeNum = "0"; 
+        //if numerator is not equal to 0
+        if (fraction.indexOf("/")!=-1) {
+            denom = fraction.substring((fraction.indexOf("/") + 1),length);
+   
+            fraction = fraction.substring(0,fraction.indexOf("/")); 
+            //if numerator is not equal to 0 and fraction has a whole number
+            if (fraction.indexOf("_")!=-1) {
+                num = fraction.substring((fraction.indexOf("_")+1),(fraction.length())); 
+                fraction = fraction.substring(0,fraction.indexOf("_")); 
+                wholeNum = fraction; 
+            }
+            //if numerator is not equal to 0, but fraction does not have whole number
+            else {
+                num = fraction.substring(0,fraction.length()); 
+            }
+        }
+        //if numerator equals 0, but there is a whole number 
+        else {
+            wholeNum = fraction; 
+        }
+        return "whole:" + wholeNum + " numerator:" + num + " denominator:" + denom; 
+    }
+   
         
         
 }
