@@ -6,6 +6,7 @@
  * @version (a version number or a date)
  */
 import java.util.*;
+import java.lang.*;
 public class indexOfText
 {
     // instance variables - replace the example below with your own
@@ -83,6 +84,7 @@ public class indexOfText
         if (fract2.indexOf("_")!=-1) {
             underscore = fract2.indexOf("_");         
             whole = fract2.substring(0,underscore); 
+          
         }
         else if (fract2.indexOf("/") == -1) {
             whole = fract2.substring(0,length); 
@@ -104,26 +106,48 @@ public class indexOfText
      * -whole number, numerator = 0, denominator
      *      -no underscore, no slash
      */
-    public static String checkpoint2Test(String fract2) {
-        String num = ""; 
-        String denom = ""; 
-        String wholeNum = ""; 
-        int fract2tlength = fract2.length(); 
-        //whole number cases
-        if (fract2.indexOf("_")!=-1) {
-            if (fract2.indexOf("/")!=-1) {
-                //wholeNum = Character.toString(fract2.charAt((fract2.indexOf("_") - 1))); 
-                wholeNum = fract2.substring(0,(indexOf("_")); 
-                //num = Character.toString(fract2.charAt(((fract2.indexOf("/") - 1)))); 
-                num = fract2.substring(0, indexOf("
-                denom = Character.toString(fract2.charAt(((fract2.indexOf("/") + 1)))); 
+    
+    public static String checkpoint2Test(String fraction) {
+        int length = fraction.length();
+        String denom = "1"; 
+        //int denomInt; 
+        String num = "0"; 
+        //int numInt; 
+        String wholeNum = "0"; 
+        //int wholeNumInt; 
+        //if numerator is not equal to 0
+        if (fraction.indexOf("/")!=-1) {
+            denom = fraction.substring((fraction.indexOf("/") + 1),length);
+            
+            
+            //denom = fraction.substring(startDenom, length); 
+            fraction = fraction.substring(0,fraction.indexOf("/")); 
+            //if numerator is not equal to 0 and fraction has a whole number
+            if (fraction.indexOf("_")!=-1) {
+                num = fraction.substring((fraction.indexOf("_")+1),(fraction.length())); 
+            
+                fraction = fraction.substring(0,fraction.indexOf("_")); 
+                wholeNum = fraction; 
+                
+            }
+            //if numerator is not equal to 0, but fraction does not have whole number
+            else {
+                num = fraction.substring(0,fraction.length()); 
+                
             }
         }
-        else System.out.println("Doesn't fit scenario"); 
-        String fullLine = "whole:" + wholeNum + " numerator:" + num + " denominator:" + denom;
-        return fullLine; 
-        
+        //if numerator equals 0, but there is a whole number 
+        else {
+            wholeNum = fraction; 
+        }
+        int denomInt = Integer.parseInt(denom); 
+        int numInt = Integer.parseInt(num); 
+        int wholeNumInt = Integer.parseInt(wholeNum);
+        return "wholeNum:" + wholeNumInt + " numerator:" + numInt + " denomerator:" + denomInt; 
     }
+    
+    
+        
                 
             
             
