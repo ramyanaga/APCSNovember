@@ -11,8 +11,8 @@ public class FracCalc {
         //asks for user input until user types in quit
         while (check == 1) {
              
-            String returnVal = produceAnswer(equation); 
-            System.out.println(returnVal); 
+            String returnValMain = produceAnswer(equation); 
+            System.out.println(returnValMain); 
             userInput = new Scanner(System.in);
             equation = userInput.nextLine(); 
             if (equation.substring(0,equation.length()).equals("quit")) {
@@ -21,7 +21,6 @@ public class FracCalc {
             }
         }
         
-        // TODO: Read the input from the user and call produceAnswer with an equation
 
     }
     
@@ -34,20 +33,13 @@ public class FracCalc {
     // The function should return the result of the fraction after it has been calculated
     //      e.g. return ==> "1_1/4"
     public static String produceAnswer(String input) { 
-      //sets return values from functions defined below into appropriate variables  
-      //Checkpoint 1 Below: 
-      /*String fract1 = fraction1(input);
+      String fract1 = fraction1(input); 
       String operator = operator(input); 
       String fract2 = fraction2(input); 
-      only returns fraction 2 as per assignment
-      return fract2; 
-      */
-     
-     //Below is for chekpoint 2 only 
-     
-     String fract2 = fraction2(input); 
-     String fract2Line = checkpoint2V2(fract2); 
-     return fract2Line; 
+      String fract1Line = checkpoint2V2(fract1); 
+      String fract2Line = checkpoint2V2(fract2); 
+      String returnVal = returnSolution(fract1Line, fract2Line, operator); 
+      return returnVal; 
      
      
     }
@@ -96,23 +88,130 @@ public class FracCalc {
             wholeNum = fraction; 
         }
         //converts Strings to Ints
-        int denomInt = stringToInt(denom); 
-        int numInt = stringToInt(num); 
-        int wholeNumInt = stringToInt(wholeNum); 
-        return "whole:" + wholeNumInt + " numerator:" + numInt + " denominator:" + denomInt; 
+        int denomInt = Integer.parseInt(denom); 
+        int numInt = Integer.parseInt(num); 
+        int wholeNumInt = Integer.parseInt(wholeNum); 
+        return wholeNumInt+"_"+numInt+"_"+denomInt; 
+        //return "whole:" + wholeNumInt + " numerator:" + numInt + " denominator:" + denomInt; 
     }
-    //function to convert strings to ints and store the ints in above function
-     public static int stringToInt(String number) {
-       int numberInt; 
-       //if the string has a negative number, the Integer.parseInt() function takes that into account here
-       if ((Character.toString(number.charAt(0)) == "-")) {
-           numberInt = Integer.parseInt(number) * (-1); 
+    public static String returnSolution(String fract1,String fract2, String operator) {
+       /*variables: 
+        * String operator
+        * int length1 
+        * int denom1 
+        * int num1 
+        * int wholeNum1 
+        * 
+        * int length2
+        * int denom2
+        * int num2 
+        * int wholeNum2
+        * String returnVal
+        */ 
+       String returnVal = ""; 
+       int length1 = fract1.length(); 
+       int denom1 = Integer.parseInt(fract1.substring((fract1.lastIndexOf("_")+1),length1)); 
+       fract1 = fract1.substring(0,(fract1.lastIndexOf("_")));
+       length1 = fract1.length(); 
+       int num1 = Integer.parseInt(fract1.substring(fract1.lastIndexOf("_")+1,length1));
+       fract1 = fract1.substring(0,fract1.lastIndexOf("_"));
+       length1 = fract1.length();
+       int wholeNum1 = Integer.parseInt(fract1.substring((fract1.lastIndexOf("_")+1),length1));
+       
+       int length2 = fract2.length(); 
+       int denom2 = Integer.parseInt(fract2.substring((fract2.lastIndexOf("_")+1),length2)); 
+       fract2 = fract2.substring(0,(fract2.lastIndexOf("_")));
+       length2 = fract2.length(); 
+       int num2 = Integer.parseInt(fract2.substring(fract2.lastIndexOf("_")+1,length2));
+       fract2 = fract2.substring(0,fract2.lastIndexOf("_"));
+       length2 = fract2.length();
+       int wholeNum2 = Integer.parseInt(fract2.substring((fract2.lastIndexOf("_")+1),length2));
+       if ((operator.equals("+") || operator.equals("-"))){
+           returnVal = addSubtract(wholeNum1, num1, denom1, wholeNum2, num2, denom2, operator); 
+       }
+       else if ((operator.equals("*")) || operator.equals("/")){
+           returnVal = multiplyDivide(wholeNum1, num1, denom1, wholeNum2, num2, denom2, operator);
+       }
+       else {
+           returnVal = "error";
+       }
+       return returnVal; 
+    }
+       
+    public static String addSubtract(int wholeNum1, int num1, int denom1, int wholeNum2, int num2, int denom2, String operator) {
+        int numSum = 0; 
+        int denom = denom1; 
+        int wholeNum;
+        if (wholeNum1 < 0) {
+            num1 = -num1; 
+        }
+        if (wholeNum2 < 0) {
+            num2 = -num2; 
+        }
+        if (denom1 != denom2) {
+            denom = denom1 * denom2; 
+            num1 *= denom2;
+            num2 *= denom1;
+        }
+        num1 += (wholeNum1 * denom); 
+        //System.out.println("num1 after simplification: " + num1); 
+        num2 += (wholeNum2 * denom); 
+        //System.out.println("num2 after simplication: " + num2); 
+        
+        //needs to be further simplified
+        if (operator.equals("+")) {
+            numSum = num1 + num2; 
         }
         else {
-            numberInt = Integer.parseInt(number); 
+            numSum = num1 - num2; 
         }
-        return numberInt; 
+        if (numSum == 0) {
+            return "0"; 
+        }
+        else {
+            return numSum + "/" + denom; 
+        }
+        /*
+        wholeNum = numSum/denom; 
+        numSum = numSum % denom;
+        return numSum + "/" + denom;
+        */
     }
+    
+    
+    public static String multiplyDivide(int wholeNum1, int num1, int denom1, int wholeNum2, int num2, int denom2, String operator) {
+        int finalNum;
+        int finalDenom; 
+        if (wholeNum1 < 0) {
+            num1 = -num1; 
+        }
+        if (wholeNum2 < 0) {
+            num2 = -num2; 
+        }
+        num1 += wholeNum1 * denom1; 
+        num2 += wholeNum2 * denom2; 
+        //shouldn't use wholeNum1 and wholeNum2 after this point in method
+        if (operator.equals("*")) {
+            finalNum = num1 * num2; 
+            finalDenom = denom1 * denom2; 
+        }
+        else {
+            finalNum = num1 * denom2; 
+            finalDenom = denom1 * num2; 
+        }
+        if (finalNum == 0) {
+            return "0"; 
+        }
+        else {
+            return finalNum + "/" + finalDenom;
+        }
+    }
+    
+    
+    
+
+    
+        
     
    
         
