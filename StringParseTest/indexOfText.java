@@ -18,8 +18,8 @@ public class indexOfText
         int check = 1; 
         while (check == 1) { 
             //String equation = userInput.nextLine()
-            String returnVal = produceAnswer(equation);
-            System.out.println(returnVal); 
+            String returnValMain = produceAnswer(equation);
+            System.out.println(returnValMain); 
             System.out.println("Enter crap here"); 
             equation = userInput.nextLine(); 
             if (equation.substring(0,equation.length()).equals("quit")) {
@@ -29,27 +29,21 @@ public class indexOfText
           
         }
         
-       /*
-       String stuff = userInput.next(); 
-       String returnStuff = conversionTest(stuff); 
-       System.out.println(returnStuff); 
-       */
-        
         
     }
      public static String produceAnswer(String input) { 
-      /*String fract1 = fraction1(input);
-      System.out.println("fract1 is " + fract1); 
+      //checkpoint 1 below
+      String fract1 = fraction1(input); 
       String operator = operator(input); 
-      System.out.println("operator is "+ operator); 
       String fract2 = fraction2(input); 
-      System.out.println("fract 2 is " + fract2); 
-      //return fract2; 
-      */
-      
-      String fract2 = fraction2(input); 
+      String fract1Line = checkpoint2V2(fract1); 
       String fract2Line = checkpoint2V2(fract2); 
-      return fract2Line;
+      String returnVal = returnSolution(fract1Line, fract2Line, operator); 
+      return returnVal; 
+      //return fract2Line;
+      //int splitStringReturn = splitString(fract2Line); 
+      //return String.valueOf(splitStringReturn); 
+      
       
      //String operator = operator(input); 
      //return operator; 
@@ -72,34 +66,11 @@ public class indexOfText
         int fract2End = input.length(); 
         String fract2 = input.substring(fract2Start, fract2End); 
         return fract2; 
+        //return fract2; 
     }
     
        
-    public static String checkpoint2V1(String fract2) {
-        int underscore = 0;
-        int slash = 0; 
-        String whole = "0"; 
-        String num = "0"; 
-        String denom = "1"; 
-        
-        int length = fract2.length(); 
-        if (fract2.indexOf("_")!=-1) {
-            underscore = fract2.indexOf("_");         
-            whole = fract2.substring(0,underscore); 
-          
-        }
-        else if (fract2.indexOf("/") == -1) {
-            whole = fract2.substring(0,length); 
-        }
-        
-        if (fract2.indexOf("/")!=-1) {
-            slash = fract2.indexOf("/"); 
-            num = fract2.substring((underscore+1), slash); 
-            denom = fract2.substring(slash+1, length); 
-        }
-        String fullLine = "whole:" + whole + " numerator:" + num + " denominator:" + denom;
-        return fullLine; 
-    }
+   
     /*possible scenarios: 
      * -whole number, numerator != 0, denominator 
      *      -underscore and slash
@@ -134,56 +105,169 @@ public class indexOfText
         else {
             wholeNum = fraction; 
         }
-        int denomInt = stringToInt(denom); 
-        int numInt = stringToInt(num); 
-        int wholeNumInt = stringToInt(wholeNum); 
-        return "wholeNum:" + wholeNumInt + " numerator:" + numInt + " denomerator:" + denomInt; 
+        int denomInt = Integer.parseInt(denom); 
+        int numInt = Integer.parseInt(num); 
+        int wholeNumInt = Integer.parseInt(wholeNum); 
+        return wholeNumInt+"_"+numInt+"_"+denomInt; 
+        //return "wholeNum:" + wholeNumInt + " numerator:" + numInt + " denomerator:" + denomInt; 
     }
-    public static int stringToInt(String number) {
-       int numberInt; 
-       if ((Character.toString(number.charAt(0)) == "-")) {
-           numberInt = Integer.parseInt(number) * (-1); 
+    
+    public static String returnSolution(String fract1,String fract2, String operator) {
+       /*variables: 
+        * String operator
+        * int length1 
+        * int denom1 
+        * int num1 
+        * int wholeNum1 
+        * 
+        * int length2
+        * int denom2
+        * int num2 
+        * int wholeNum2
+        * String returnVal
+        */ 
+       String returnVal = ""; 
+       int length1 = fract1.length(); 
+       int denom1 = Integer.parseInt(fract1.substring((fract1.lastIndexOf("_")+1),length1)); 
+       fract1 = fract1.substring(0,(fract1.lastIndexOf("_")));
+       length1 = fract1.length(); 
+       int num1 = Integer.parseInt(fract1.substring(fract1.lastIndexOf("_")+1,length1));
+       fract1 = fract1.substring(0,fract1.lastIndexOf("_"));
+       length1 = fract1.length();
+       int wholeNum1 = Integer.parseInt(fract1.substring((fract1.lastIndexOf("_")+1),length1));
+       
+       int length2 = fract2.length(); 
+       int denom2 = Integer.parseInt(fract2.substring((fract2.lastIndexOf("_")+1),length2)); 
+       fract2 = fract2.substring(0,(fract2.lastIndexOf("_")));
+       length2 = fract2.length(); 
+       int num2 = Integer.parseInt(fract2.substring(fract2.lastIndexOf("_")+1,length2));
+       fract2 = fract2.substring(0,fract2.lastIndexOf("_"));
+       length2 = fract2.length();
+       int wholeNum2 = Integer.parseInt(fract2.substring((fract2.lastIndexOf("_")+1),length2));
+       if ((operator.equals("+") || operator.equals("-"))){
+           returnVal = addSubtract(wholeNum1, num1, denom1, wholeNum2, num2, denom2, operator); 
+       }
+       else if ((operator.equals("*")) || operator.equals("/")){
+           returnVal = multiplyDivide(wholeNum1, num1, denom1, wholeNum2, num2, denom2, operator);
+       }
+       else {
+           returnVal = "error";
+       }
+       /*
+        //return returnVal; 
+       else if (operator.equals("*")) {
+            returnVal = multiplyDivide(wholeNum1, num1, denom1, wholeNum2, num2, denom2, operator); 
+       }
+       else if (operator.equals("/")) {
+           returnVal = multiplyDivide(wholeNum1, num1, denom1, wholeNum2, num2, denom2, operator); 
+       }
+       else {
+           returnVal = "0"; 
+       }
+       */
+       return returnVal;  
+           
+    }
+    
+    public static String addSubtract(int wholeNum1, int num1, int denom1, int wholeNum2, int num2, int denom2, String operator) {
+        int numSum = 0; 
+        int denom = denom1; 
+        int wholeNum;
+        if (wholeNum1 < 0) {
+            num1 = -num1; 
+        }
+        if (wholeNum2 < 0) {
+            num2 = -num2; 
+        }
+        if (denom1 != denom2) {
+            denom = denom1 * denom2; 
+            num1 *= denom2;
+            num2 *= denom1;
+        }
+        num1 += (wholeNum1 * denom); 
+        System.out.println("num1 after simplification: " + num1); 
+        num2 += (wholeNum2 * denom); 
+        System.out.println("num2 after simplication: " + num2); 
+        
+        //needs to be further simplified
+        if (operator.equals("+")) {
+            numSum = num1 + num2; 
         }
         else {
-            numberInt = Integer.parseInt(number); 
+            numSum = num1 - num2; 
         }
-        return numberInt; 
+        if (numSum == 0) {
+            return "0"; 
+        }
+        else {
+            return numSum + "/" + denom; 
+        }
+        /*
+        wholeNum = numSum/denom; 
+        numSum = numSum % denom;
+        return numSum + "/" + denom;
+        */
+    }
+    
+    
+    public static String multiplyDivide(int wholeNum1, int num1, int denom1, int wholeNum2, int num2, int denom2, String operator) {
+        int finalNum;
+        int finalDenom; 
+        if (wholeNum1 < 0) {
+            num1 = -num1; 
+        }
+        if (wholeNum2 < 0) {
+            num2 = -num2; 
+        }
+        num1 += wholeNum1 * denom1; 
+        num2 += wholeNum2 * denom2; 
+        //shouldn't use wholeNum1 and wholeNum2 after this point in method
+        if (operator.equals("*")) {
+            finalNum = num1 * num2; 
+            finalDenom = denom1 * denom2; 
+        }
+        else {
+            finalNum = num1 * denom2; 
+            finalDenom = denom1 * num2; 
+        }
+        if (finalNum == 0) {
+            return "0"; 
+        }
+        else {
+            return finalNum + "/" + finalDenom;
+        }
     }
        
-    /*public static void stringToInt(String wholeNum, String num, String denom) {
-        int wholeNumInt; 
-        int numInt; 
-        int denomInt; 
-        if (wholeNum.substring(0,1).equals("-")) {
-            wholeNumInt = Integer.parseInt(wholeNum) * -1; 
+       
+       
+    /*Recycling Bin: 
+     *  public static String checkpoint2V1(String fract2) {
+        int underscore = 0;
+        int slash = 0; 
+        String whole = "0"; 
+        String num = "0"; 
+        String denom = "1"; 
+        
+        int length = fract2.length(); 
+        if (fract2.indexOf("_")!=-1) {
+            underscore = fract2.indexOf("_");         
+            whole = fract2.substring(0,underscore); 
+          
         }
-        else {wholeNumInt = Integer.parseInt(wholeNum); 
+        else if (fract2.indexOf("/") == -1) {
+            whole = fract2.substring(0,length); 
         }
-        if (num.substring(0,1).equals("-")) {
-           numInt = Integer.parseInt(num) * -1; 
+        
+        if (fract2.indexOf("/")!=-1) {
+            slash = fract2.indexOf("/"); 
+            num = fract2.substring((underscore+1), slash); 
+            denom = fract2.substring(slash+1, length); 
         }
-        else {numInt = Integer.parseInt(num); 
-        }
-        if (denom.substring(0,1).equals("-")) {
-            denomInt = Integer.parseInt(denom) * -1; 
-        }
-        else {
-            denomInt = Integer.parseInt(denom); 
-        }
-        System.out.println("wholeNumInt: " + wholeNumInt + " numInt: " + numInt + " denomInt:" + denomInt); 
-     
+        String fullLine = "whole:" + whole + " numerator:" + num + " denominator:" + denom;
+        return fullLine; 
     }
-    */
-            
-    
-    /*
-    public static String conversionTest(String anyInput) {
-        String stuff = anyInput;  
-        int stuffInt = Integer.parseInt(stuff); 
-        return "hello" + " you typed this as stuff " + stuffInt; 
-    }
-    */
-    
+     * 
+     */
         
                 
             
